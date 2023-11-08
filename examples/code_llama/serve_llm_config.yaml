@@ -1,0 +1,38 @@
+# This file was generated using the `serve build` command on Ray v2.8.0.
+
+proxy_location: EveryNode
+
+http_options:
+
+  host: 0.0.0.0
+
+  port: 8000
+
+grpc_options:
+
+  port: 9000
+
+  grpc_servicer_functions: []
+
+applications:
+
+- name: app1
+
+  route_prefix: /
+
+  import_path: llama_7b:gen_code_app
+
+  runtime_env: 
+    pip:
+      - llama-cpp-python
+
+  deployments:
+
+  - name: GenerateCode
+    num_replicas: 2
+    max_concurrent_queries: 5
+    graceful_shutdown_wait_loop_s: 2.0
+    graceful_shutdown_timeout_s: 20.0
+    health_check_period_s: 10.0
+    health_check_timeout_s: 30.0
+
