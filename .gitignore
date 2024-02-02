@@ -1,0 +1,111 @@
+# General
+.DS_Store
+Thumbs.db
+local_cache/
+*.log
+*.tmp
+*.gguf
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+env/
+db.sqlite3
+*.sqlite3
+*.db
+
+# Virtual Environment
+.pipenv
+pipenv-debug.log
+Pipfile.lock
+poetry.lock
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Node.js
+node_modules/
+
+# Java
+*.class
+target/
+
+# Compiled source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+*.sqlite3
+*.xlsx
+
+# Packages
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# OS generated files
+.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Configuration files
+*.conf
+*.env
+*.ini
+*.md
+*.properties
+*.toml
+*.yml
+
+# Jekyll
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# Hugo
+/public/
+/resources/
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Flutter
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/.podspec.lock
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/Flutter.app
+
+# Gradle
+.gradle/
+build/

@@ -1,0 +1,83 @@
+-- Table 1: Users
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY,
+    UserName VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL
+);
+
+-- Table 2: Products
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(255) NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL
+);
+
+-- Table 3: Orders
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    UserID INT,
+    OrderDate DATE,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+-- Table 4: OrderDetails
+CREATE TABLE OrderDetails (
+    OrderDetailID INT PRIMARY KEY,
+    OrderID INT,
+    ProductID INT,
+    Quantity INT,
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- Table 5: Categories
+CREATE TABLE Categories (
+    CategoryID INT PRIMARY KEY,
+    CategoryName VARCHAR(255) NOT NULL
+);
+
+-- Table 6: ProductsCategories (Many-to-Many relationship between Products and Categories)
+CREATE TABLE ProductsCategories (
+    ProductID INT,
+    CategoryID INT,
+    PRIMARY KEY (ProductID, CategoryID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
+);
+
+-- Table 7: Addresses
+CREATE TABLE Addresses (
+    AddressID INT PRIMARY KEY,
+    UserID INT,
+    Street VARCHAR(255),
+    City VARCHAR(255),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+-- Table 8: Reviews
+CREATE TABLE Reviews (
+    ReviewID INT PRIMARY KEY,
+    ProductID INT,
+    UserID INT,
+    Rating INT,
+    Comment TEXT,
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+-- Table 9: Payments
+CREATE TABLE Payments (
+    PaymentID INT PRIMARY KEY,
+    OrderID INT,
+    PaymentDate DATE,
+    Amount DECIMAL(10, 2),
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
+);
+
+-- Table 10: Suppliers
+CREATE TABLE Suppliers (
+    SupplierID INT PRIMARY KEY,
+    SupplierName VARCHAR(255) NOT NULL,
+    ContactName VARCHAR(255),
+    ContactEmail VARCHAR(255)
+);

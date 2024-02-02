@@ -1,0 +1,32 @@
+name: Deploy to Azure Kubernetes Service
+
+on:
+  release:
+    types: [published]
+    branches:
+      - 'main'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Azure Kubernetes Service connection
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      
+      - name: Setting AKS context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: ${{ secrets.RESOURCE_GROUP_NAME }}
+          cluster-name: ${{ secrets.CLUSTER_NAME }}
+      - name: Deploy to Azure Kubernetes Service
+        uses: azure/k8s-deploy@v1
+          with:
+            manifests: |
+              deployment/*.yaml
