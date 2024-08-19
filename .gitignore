@@ -1,0 +1,9 @@
+chroma_langchain_db/
+data/
+model_cache_dir/
+map_*/
+*env/
+__pycache__/
+.env/
+*.log
+chroma*/
