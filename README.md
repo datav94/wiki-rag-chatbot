@@ -1,48 +1,48 @@
-### Login
-az login --tenant adpvwg.onmicrosoft.com
+This document provides a detailed explanation of a Python codebase that implements a Retrieval Augmented Generation (RAG) chatbot using the Langchain framework and serves it through a FastAPI web application.
 
-### Set the subscription context
-az account set --subscription CARIAD.g3-adp-groupmdm.adp-groupmdm-dev-001
+## Table of Contents
 
-### Get the credentials for the specific AKS cluster
-az aks get-credentials -g natural-language-interface -n aks-nli-ray --overwrite-existing
+1. Core Components and Libraries
+2. Model and Data Preparation
+3. Chatbot Logic
+4. FastAPI Integration
+5. Conclusion
 
-### Create and attach a nodepool to the cluster
+### Core Components and Libraries
 
-az aks nodepool add --resource-group natural-language-interface --cluster-name aks-nli-ray --name gpuray --node-count 3 --node-vm-size Standard_NC12s_v3 --node-taints sku=gpu:NoSchedule --aks-custom-headers UseGPUDedicatedVHD=true --enable-cluster-autoscaler --min-count 3 --max-count 5
-
-### Aftre successful creation, install KubeRay on this cluster using helm
-helm repo add kuberay https://ray-project.github.io/kuberay-helm/
-helm repo update
-helm install kuberay-operator kuberay/kuberay-operator --version 1.0.0
-
-
-### Intsall Ray Service
-kubectl apply -f ray-service.llama7b.yaml
-
-### Check if service is up and running, it takes 5 to 10 mins
-kubectl get services
-
-### Expose Service on external IP
-kubectl expose service code-llama-serve-svc --type=LoadBalancer --name codellama-loadbalancer
-
-### Check the external IP and test the services
-```python 
-import requests
-import time
-
-response = requests.post("URL", params={"text": "def minhash(arr "})
-print(response.json())
-
-```
-
-###Please note that both the service & the code llama model is uploaded to a azure storage account
-
-#### Zip the code and upload it to azure storage container and set the URL in the yaml file with SAS token
-
-#### Similarly generate the URL with SAS token for model as well, which goes inside the code. This can also be done with mounting the file
+- __Langchain__: A powerful framework for building language model applications, simplifying the integration of various models, prompts, chains, agents, and tools.
+- __FastAPI__: A modern, high-performance web framework for building APIs with Python 3.7+.
+- __Hugging Face Transformers__: A library providing state-of-the-art natural language processing models.
+- __Chroma__: A vector database for efficient semantic search, utilized here for storing and retrieving contextually relevant information.
+- __GPTCache__: A caching mechanism to optimize language model calls for similar queries.
 
 
+### Model and Data Preparation
 
+- __Models:__
+google/flan-t5-large: A large language model for text generation tasks like answering questions and generating text.
+BAAI/bge-small-en-v1.5: An embedding model to convert text into numerical vectors for semantic similarity comparisons.
+- __Data:__
+__Wikipedia Collection__: A Chroma collection presumably containing Wikipedia articles related to Turing machines, Graph Theory, and Artificial Intelligence.
+- __Cache__:
+GPTCache: Configured to store and retrieve language model responses based on the prompt's content, reducing redundant computations.
 
+### Chatbot Logic
 
+- __Multi-Query Retrieval__: Improves retrieval by generating multiple query variations from the user's question and chat history.
+- __Contextual Understanding__: The chatbot incorporates chat history and retrieved context to generate more informed responses.
+- __Domain Specificity__: It is designed to answer questions about Turing machines, Graph Theory, and Artificial Intelligence, truthfully admitting its limitations if it cannot answer.
+- __Caching__: Leverages GPTCache to avoid repeated calls to the language model for similar questions.
+
+### FastAPI Integration
+
+- __API Endpoint__:
+/chat (POST): Accepts chat requests in JSON format with a messages field containing the conversation history.
+- __Request Handling__:
+The chat function processes incoming requests, invokes the full_chain to generate a response, and returns the response in a JSON format.
+- __Server__:
+The script starts a Uvicorn server to host the FastAPI application, making it accessible at http://0.0.0.0:5000/chat.
+
+### Conclusion
+
+This codebase presents a well-structured implementation of a RAG chatbot tailored to specific domains. It demonstrates the effective use of Langchain for composing complex workflows, FastAPI for creating a user-friendly API, and optimization techniques like caching.
